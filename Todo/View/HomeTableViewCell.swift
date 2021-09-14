@@ -15,5 +15,7 @@ class HomeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        checkImageView.layer.cornerRadius = 25 / 2
+        checkImageView.layer.masksToBounds = true
     }
 }
