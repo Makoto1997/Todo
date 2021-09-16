@@ -9,6 +9,12 @@ import UIKit
 
 final class HomeViewController: UIViewController, UITextFieldDelegate {
     
+    
+    static func makeFromStoryboard() -> HomeViewController {
+        let vc = UIStoryboard.homeViewController
+        return vc
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var plusAlertButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
