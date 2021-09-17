@@ -6,12 +6,19 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseMessaging
+import GoogleMobileAds
 import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         //キーボードを上げる
         IQKeyboardManager.shared.enable = true
         //キーボードの上の余分なタブを消す
