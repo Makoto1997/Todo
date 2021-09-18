@@ -9,13 +9,13 @@ import UIKit
 
 class HomeTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var checkImageView: UIButton!
+    @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var taskLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        checkImageView.layer.cornerRadius = 25 / 2
-        checkImageView.layer.masksToBounds = true
+        checkButton.layer.cornerRadius = 25 / 2
+        checkButton.layer.masksToBounds = true
     }
 }

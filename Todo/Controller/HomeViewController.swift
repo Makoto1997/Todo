@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMobileAds
 
-final class HomeViewController: UIViewController, UITextFieldDelegate {
+final class HomeViewController: UIViewController {
     
     
     static func makeFromStoryboard() -> HomeViewController {
@@ -17,18 +17,18 @@ final class HomeViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var plusAlertButton: UIButton!
+    @IBOutlet weak var additionButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var adView: GADBannerView!
     
     private let homeTableViewCell = "homeTableViewCell"
-    private var textArray = [String]()
+    var textArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        plusAlertButton.layer.cornerRadius = 50 / 2
-        plusAlertButton.layer.masksToBounds = true
+        additionButton.layer.cornerRadius = 50 / 2
+        additionButton.layer.masksToBounds = true
         
         closeButton.layer.cornerRadius = 50 / 2
         closeButton.layer.borderWidth = 1
@@ -43,22 +43,23 @@ final class HomeViewController: UIViewController, UITextFieldDelegate {
         adView.load(GADRequest())
     }
     
-    @IBAction func plusAlert(_ sender: Any) {
+    @IBAction func addition(_ sender: Any) {
         
         let alert = UIAlertController(title: "タスクの追加", message: "", preferredStyle: .alert)
         
         alert.addTextField { (textField) in
+            textField.delegate = self
             textField.placeholder = "新規タスク"
         }
         
-        let plus = UIAlertAction(title: "追加", style: .default) { (action) in
+        let addition = UIAlertAction(title: "追加", style: .default) { (action) in
             
-            
+            self.tableView.reloadData()
         }
         
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
         
-        alert.addAction(plus)
+        alert.addAction(addition)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
@@ -74,6 +75,18 @@ final class HomeViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
+extension HomeViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textArray.append(textField.text!)
+        textField.resignFirstResponder()
+        textField.text = ""
+        
+        return true
+    }
+}
+
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,8 +98,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell") as! HomeTableViewCell
         
-        //        let checkImageView = cell.contentView.viewWithTag(1) as! UIImageView
-        //        let taskLabel = cell.contentView.viewWithTag(2) as! UILabel
+        cell.selectionStyle = .none
+//        let checkButton = cell.contentView.viewWithTag(1) as! UIButton
+        let taskLabel = cell.contentView.viewWithTag(2) as! UILabel
+        
+        taskLabel.text = textArray[indexPath.row]
         
         return cell
     }
@@ -95,40 +111,45 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         return 50
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
 }
 
 extension HomeViewController: GADBannerViewDelegate {
     
     /// Tells the delegate an ad request loaded an ad.
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-      print("adViewDidReceiveAd")
+        print("adViewDidReceiveAd")
     }
-
+    
     /// Tells the delegate an ad request failed.
     func adView(_ bannerView: GADBannerView,
-        didFailToReceiveAdWithError error: GADRequestError) {
-      print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
     }
-
+    
     /// Tells the delegate that a full-screen view will be presented in response
     /// to the user clicking on an ad.
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-      print("adViewWillPresentScreen")
+        print("adViewWillPresentScreen")
     }
-
+    
     /// Tells the delegate that the full-screen view will be dismissed.
     func adViewWillDismissScreen(_ bannerView: GADBannerView) {
-      print("adViewWillDismissScreen")
+        print("adViewWillDismissScreen")
     }
-
+    
     /// Tells the delegate that the full-screen view has been dismissed.
     func adViewDidDismissScreen(_ bannerView: GADBannerView) {
-      print("adViewDidDismissScreen")
+        print("adViewDidDismissScreen")
     }
-
+    
     /// Tells the delegate that a user click will open another app (such as
     /// the App Store), backgrounding the current app.
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-      print("adViewWillLeaveApplication")
+        print("adViewWillLeaveApplication")
     }
 }
