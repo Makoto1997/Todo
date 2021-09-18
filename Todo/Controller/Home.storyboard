@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iIc-D5-D7W">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home View Controller-->
+        <!--タスク-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="HomeViewController" customModule="Todo" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,7 +55,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="plusAlert:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Bx2-zR-Fmc"/>
+                                                    <action selector="addition:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="vXJ-oe-bYJ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -73,7 +73,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="0b7-6u-naH">
-                                <rect key="frame" x="0.0" y="44" width="414" height="678"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="634"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -89,20 +89,46 @@
                             <constraint firstItem="jXp-4a-Ahp" firstAttribute="top" secondItem="0b7-6u-naH" secondAttribute="bottom" constant="10" id="ttY-Cn-IVd"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="タスク" id="wW3-bo-hb3">
+                        <barButtonItem key="rightBarButtonItem" image="settings" id="XKf-U0-Mdg">
+                            <connections>
+                                <action selector="setting:" destination="Y6W-OH-hqX" id="gYJ-Gg-BJn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="adView" destination="c6r-9P-0VT" id="QIC-fC-J8A"/>
+                        <outlet property="additionButton" destination="89o-tc-dJz" id="BAt-LO-wmT"/>
                         <outlet property="closeButton" destination="ydy-DO-8ni" id="Rp9-2Z-mtW"/>
-                        <outlet property="plusAlertButton" destination="89o-tc-dJz" id="baU-kb-dVv"/>
                         <outlet property="tableView" destination="0b7-6u-naH" id="WSA-Za-pjo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1607" y="117"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5OT-So-pjW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iIc-D5-D7W" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PgS-jU-Npt">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="GCM-4x-DLH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mlt-28-475" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="885.50724637681162" y="116.51785714285714"/>
         </scene>
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="settings" width="25" height="25"/>
         <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
