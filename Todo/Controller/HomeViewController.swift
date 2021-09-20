@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var adView: GADBannerView!
     
     private let homeTableViewCell = "homeTableViewCell"
-    var textArray = [String]()
+    private var textArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +37,8 @@ final class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "homeTableViewCell")
+        //複数選択を可能にする。
+        tableView.allowsMultipleSelectionDuringEditing = true
         
         adView.adUnitID = "ca-app-pub-6920435367310913/3187878572"
         adView.rootViewController = self
@@ -45,15 +47,17 @@ final class HomeViewController: UIViewController {
     
     @IBAction func addition(_ sender: Any) {
         
+        var alertTextField: UITextField?
         let alert = UIAlertController(title: "タスクの追加", message: "", preferredStyle: .alert)
         
         alert.addTextField { (textField) in
-            textField.delegate = self
+            alertTextField = textField
             textField.placeholder = "新規タスク"
         }
         
         let addition = UIAlertAction(title: "追加", style: .default) { (action) in
             
+            self.textArray.append(alertTextField!.text!)
             self.tableView.reloadData()
         }
         
@@ -75,23 +79,11 @@ final class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        textArray.append(textField.text!)
-        textField.resignFirstResponder()
-        textField.text = ""
-        
-        return true
-    }
-}
-
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
+        return textArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,9 +91,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell") as! HomeTableViewCell
         
         cell.selectionStyle = .none
-//        let checkButton = cell.contentView.viewWithTag(1) as! UIButton
+        //        let checkButton = cell.contentView.viewWithTag(1) as! UIButton
         let taskLabel = cell.contentView.viewWithTag(2) as! UILabel
-        
         taskLabel.text = textArray[indexPath.row]
         
         return cell
