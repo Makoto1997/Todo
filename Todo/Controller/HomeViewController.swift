@@ -70,7 +70,18 @@ final class HomeViewController: UIViewController {
     
     @IBAction func close(_ sender: Any) {
         
-        
+//        func deleteRows() {
+//            guard let selectedIndexPaths = self.tableView.indexPathsForSelectedRows else {
+//                return
+//            }
+//            // 配列の要素削除で、indexの矛盾を防ぐため、降順にソートする
+//            let sortedIndexPaths =  selectedIndexPaths.sorted { $0.row > $1.row }
+//            for indexPathList in sortedIndexPaths {
+//                textArray.remove(at: indexPathList.row) // 選択肢のindexPathから配列の要素を削除
+//            }
+//            // tableViewの行を削除
+//            tableView.deleteRows(at: sortedIndexPaths, with: UITableView.RowAnimation.automatic)
+//        }
     }
     
     @IBAction func setting(_ sender: Any) {
@@ -90,7 +101,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell") as! HomeTableViewCell
         
-        cell.selectionStyle = .none
+//        cell.selectionStyle = .none
         //        let checkButton = cell.contentView.viewWithTag(1) as! UIButton
         let taskLabel = cell.contentView.viewWithTag(2) as! UILabel
         taskLabel.text = textArray[indexPath.row]
@@ -103,9 +114,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//        guard tableView.isEditing else { return }
+//    }
+//
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//
+//        guard tableView.isEditing else { return }
+//    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "削除"
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        
+        guard tableView.isEditing else { return }
+        textArray.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+        tableView.reloadData()
     }
 }
 
