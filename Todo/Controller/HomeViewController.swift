@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var adView: GADBannerView!
     
     private let homeTableViewCell = "homeTableViewCell"
-    private var textArray = [String]()
+    private var taskArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +39,8 @@ final class HomeViewController: UIViewController {
         tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "homeTableViewCell")
         //複数選択を可能にする。
         tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.isEditing = true
+        tableView.allowsSelectionDuringEditing = true
         
         adView.adUnitID = "ca-app-pub-6920435367310913/3187878572"
         adView.rootViewController = self
@@ -57,7 +59,7 @@ final class HomeViewController: UIViewController {
         
         let addition = UIAlertAction(title: "追加", style: .default) { (action) in
             
-            self.textArray.append(alertTextField!.text!)
+            self.taskArray.append(alertTextField!.text!)
             self.tableView.reloadData()
         }
         
@@ -94,17 +96,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return textArray.count
+        return taskArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell") as! HomeTableViewCell
         
-//        cell.selectionStyle = .none
-        //        let checkButton = cell.contentView.viewWithTag(1) as! UIButton
-        let taskLabel = cell.contentView.viewWithTag(2) as! UILabel
-        taskLabel.text = textArray[indexPath.row]
+        let taskLabel = cell.contentView.viewWithTag(1) as! UILabel
+        taskLabel.text = taskArray[indexPath.row]
         
         return cell
     }
@@ -131,9 +131,32 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         guard tableView.isEditing else { return }
-        textArray.remove(at: indexPath.row)
+        taskArray.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let task = taskArray[sourceIndexPath.row]
+        taskArray.remove(at: sourceIndexPath.row)
+        taskArray.insert(task, at: destinationIndexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        
+        if action == #selector(copy(_:)) {
+                return true
+            }
+        
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
     }
 }
 
