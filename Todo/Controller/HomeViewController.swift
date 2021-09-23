@@ -10,7 +10,6 @@ import GoogleMobileAds
 
 final class HomeViewController: UIViewController {
     
-    
     static func makeFromStoryboard() -> HomeViewController {
         let vc = UIStoryboard.homeViewController
         return vc
@@ -34,13 +33,35 @@ final class HomeViewController: UIViewController {
         closeButton.layer.borderWidth = 1
         closeButton.layer.masksToBounds = true
         
+        setNavigationBar()
+        setTableView()
+        setAdView()
+    }
+    
+    func setNavigationBar() {
+        
+        navigationController?.navigationBar.delegate = self
+        navigationController?.navigationItem.title = "タスク"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        navigationController?.navigationBar.barTintColor = .black
+        //すりガラスのようになるのを防ぐ。
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setTableView() {
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "homeTableViewCell")
+        //編集モードにする。
+        tableView.isEditing = true
         //複数選択を可能にする。
         tableView.allowsMultipleSelectionDuringEditing = true
-        tableView.isEditing = true
+        //並び替えを可能にする。
         tableView.allowsSelectionDuringEditing = true
+    }
+    
+    func setAdView() {
         
         adView.adUnitID = "ca-app-pub-6920435367310913/3187878572"
         adView.rootViewController = self
@@ -72,23 +93,31 @@ final class HomeViewController: UIViewController {
     
     @IBAction func close(_ sender: Any) {
         
-//        func deleteRows() {
-//            guard let selectedIndexPaths = self.tableView.indexPathsForSelectedRows else {
-//                return
-//            }
-//            // 配列の要素削除で、indexの矛盾を防ぐため、降順にソートする
-//            let sortedIndexPaths =  selectedIndexPaths.sorted { $0.row > $1.row }
-//            for indexPathList in sortedIndexPaths {
-//                textArray.remove(at: indexPathList.row) // 選択肢のindexPathから配列の要素を削除
-//            }
-//            // tableViewの行を削除
-//            tableView.deleteRows(at: sortedIndexPaths, with: UITableView.RowAnimation.automatic)
-//        }
+        //        func deleteRows() {
+        //            guard let selectedIndexPaths = self.tableView.indexPathsForSelectedRows else {
+        //                return
+        //            }
+        //            // 配列の要素削除で、indexの矛盾を防ぐため、降順にソートする
+        //            let sortedIndexPaths =  selectedIndexPaths.sorted { $0.row > $1.row }
+        //            for indexPathList in sortedIndexPaths {
+        //                textArray.remove(at: indexPathList.row) // 選択肢のindexPathから配列の要素を削除
+        //            }
+        //            // tableViewの行を削除
+        //            tableView.deleteRows(at: sortedIndexPaths, with: UITableView.RowAnimation.automatic)
+        //        }
     }
     
     @IBAction func setting(_ sender: Any) {
         
         
+    }
+}
+
+extension HomeViewController: UINavigationBarDelegate {
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        //ナビゲーションバーを画面トップまで広げる。
+        return .topAttached
     }
 }
 
@@ -103,6 +132,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell") as! HomeTableViewCell
         
+        let cellSelectedBgView = UIView()
+        cellSelectedBgView.backgroundColor = .white
+        cell.selectedBackgroundView = cellSelectedBgView
+        
         let taskLabel = cell.contentView.viewWithTag(1) as! UILabel
         taskLabel.text = taskArray[indexPath.row]
         
@@ -114,15 +147,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        guard tableView.isEditing else { return }
-//    }
-//
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//
-//        guard tableView.isEditing else { return }
-//    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //
+    //        guard tableView.isEditing else { return }
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    //
+    //        guard tableView.isEditing else { return }
+    //    }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "削除"
@@ -146,16 +179,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         return true
     }
-
+    
     func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
         if action == #selector(copy(_:)) {
-                return true
-            }
+            return true
+        }
         
         return false
     }
-
+    
     func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
     }
 }
