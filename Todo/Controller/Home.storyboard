@@ -37,7 +37,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="close:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="I9t-DF-wpE"/>
+                                                    <action selector="cellDelete:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="dZ3-ic-gxw"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="40A-ms-B4T">
@@ -102,7 +102,7 @@
                     <connections>
                         <outlet property="adView" destination="c6r-9P-0VT" id="QIC-fC-J8A"/>
                         <outlet property="additionButton" destination="89o-tc-dJz" id="BAt-LO-wmT"/>
-                        <outlet property="closeButton" destination="ydy-DO-8ni" id="Rp9-2Z-mtW"/>
+                        <outlet property="cellDeleteButton" destination="ydy-DO-8ni" id="opD-P6-GtH"/>
                         <outlet property="tableView" destination="0b7-6u-naH" id="WSA-Za-pjo"/>
                     </connections>
                 </viewController>

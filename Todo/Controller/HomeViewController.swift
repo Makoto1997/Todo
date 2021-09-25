@@ -17,7 +17,7 @@ final class HomeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var additionButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var cellDeleteButton: UIButton!
     @IBOutlet weak var adView: GADBannerView!
     
     private let homeTableViewCell = "homeTableViewCell"
@@ -29,9 +29,9 @@ final class HomeViewController: UIViewController {
         additionButton.layer.cornerRadius = 50 / 2
         additionButton.layer.masksToBounds = true
         
-        closeButton.layer.cornerRadius = 50 / 2
-        closeButton.layer.borderWidth = 1
-        closeButton.layer.masksToBounds = true
+        cellDeleteButton.layer.cornerRadius = 50 / 2
+        cellDeleteButton.layer.borderWidth = 1
+        cellDeleteButton.layer.masksToBounds = true
         
         setNavigationBar()
         setTableView()
@@ -91,21 +91,9 @@ final class HomeViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func close(_ sender: Any) {
+    @IBAction func cellDelete(_ sender: Any) {
         
-        //        func deleteRows() {
-        //            guard let selectedIndexPaths = self.tableView.indexPathsForSelectedRows else {
-        //                return
-        //            }
-        //            // 配列の要素削除で、indexの矛盾を防ぐため、降順にソートする
-        //            let sortedIndexPaths =  selectedIndexPaths.sorted { $0.row > $1.row }
-        //            for indexPathList in sortedIndexPaths {
-        //                textArray.remove(at: indexPathList.row) // 選択肢のindexPathから配列の要素を削除
-        //            }
-        //            // tableViewの行を削除
-        //            tableView.deleteRows(at: sortedIndexPaths, with: UITableView.RowAnimation.automatic)
-        //        }
-    }
+            }
     
     @IBAction func setting(_ sender: Any) {
         
@@ -147,10 +135,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //        guard tableView.isEditing else { return }
-    //    }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+            guard tableView.isEditing else { return }
+        }
     //
     //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
     //
