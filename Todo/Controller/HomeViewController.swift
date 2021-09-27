@@ -57,8 +57,6 @@ final class HomeViewController: UIViewController {
         tableView.isEditing = true
         //複数選択を可能にする。
         tableView.allowsMultipleSelectionDuringEditing = true
-        //並び替えを可能にする。
-        tableView.allowsSelectionDuringEditing = true
     }
     
     func setAdView() {
@@ -93,6 +91,18 @@ final class HomeViewController: UIViewController {
     
     @IBAction func cellDelete(_ sender: Any) {
         
+        guard let selectedIndexPaths = self.tableView.indexPathsForSelectedRows else {
+            return
+        }
+        
+        // 配列の要素削除で、indexの矛盾を防ぐため、降順にソートする
+        let sortedIndexPaths =  selectedIndexPaths.sorted { $0.row > $1.row }
+        for indexPathList in sortedIndexPaths {
+            taskArray.remove(at: indexPathList.row) // 選択肢のindexPathから配列の要素を削除
+        }
+        
+        // tableViewの行を削除
+     tableView.deleteRows(at: sortedIndexPaths, with: UITableView.RowAnimation.automatic)
             }
     
     @IBAction func setting(_ sender: Any) {
@@ -135,26 +145,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-            guard tableView.isEditing else { return }
-        }
-    //
-    //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-    //
-    //        guard tableView.isEditing else { return }
-    //    }
-    
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "削除"
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        guard tableView.isEditing else { return }
-        taskArray.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-    }
+//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+//        return "削除"
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//
+//        guard tableView.isEditing else { return }
+//        taskArray.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+//    }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
