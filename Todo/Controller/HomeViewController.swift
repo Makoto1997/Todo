@@ -61,7 +61,7 @@ final class HomeViewController: UIViewController {
     
     func setAdView() {
         
-        adView.adUnitID = "ca-app-pub-6920435367310913/3187878572"
+        adView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         adView.rootViewController = self
         adView.load(GADRequest())
     }
