@@ -41,11 +41,12 @@ final class HomeViewController: UIViewController {
     func setNavigationBar() {
         
         navigationController?.navigationBar.delegate = self
-        navigationController?.navigationItem.title = "タスク"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20.0)]
         navigationController?.navigationBar.barTintColor = .black
         //すりガラスのようになるのを防ぐ。
         navigationController?.navigationBar.isTranslucent = false
+        navigationItem.title = "タスク"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func setTableView() {
@@ -107,7 +108,7 @@ final class HomeViewController: UIViewController {
     
     @IBAction func setting(_ sender: Any) {
         
-        
+        Router.shared.showSetting(from: self)
     }
 }
 

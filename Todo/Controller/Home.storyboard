@@ -95,7 +95,7 @@
                         <barButtonItem key="rightBarButtonItem" image="settings" id="XKf-U0-Mdg">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="setting:" destination="Y6W-OH-hqX" id="gYJ-Gg-BJn"/>
+                                <action selector="setting:" destination="Y6W-OH-hqX" id="47B-PO-uKw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
