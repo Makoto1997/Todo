@@ -27,6 +27,11 @@ final class Router {
         let vc = HomeViewController.makeFromStoryboard()
         show(from: from, next: vc)
     }
+    
+    func showSetting(from: UIViewController) {
+        let vc = SettingViewController.makeFromStoryboard()
+        show(from: from, next: vc)
+    }
 }
 
 private extension Router {
